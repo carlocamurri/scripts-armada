@@ -1,0 +1,2 @@
+# Ingestion done in lookout-ingester
+disableEventProcessing: true

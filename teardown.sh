@@ -1,6 +1,6 @@
 #!/bin/sh
 
-kind delete cluster --name demo-a
+mage KindTeardown
 
 docker compose -f ../scripts-armada/dev/docker-compose.yaml down
 

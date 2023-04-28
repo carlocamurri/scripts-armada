@@ -1,0 +1,20 @@
+redis:
+  addrs:
+    - localhost:6379
+  password: ""
+  db: 1
+  poolSize: 1000
+pulsar:
+  enabled: true
+  URL: "pulsar://localhost:6650"
+  jobsetEventsTopic: "persistent://armada/armada/events"
+  receiveTimeout: "10s"
+  backoffTime: "5s"
+subscriptionName: "events-ingester"
+minMessageCompressionSize: 1024
+batchSize: 1048576  #1MB
+batchDuration: 100ms
+batchMessages: 10000
+eventRetentionPolicy:
+  expiryEnabled: true
+  retentionDuration: 336h

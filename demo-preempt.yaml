@@ -8,7 +8,6 @@ submissions:
         count: 200
         annotations:
           armadaproject.io/step_path: "/1/2/3"
-          armadaproject.io/region: "NA"
         spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
@@ -35,9 +34,6 @@ submissions:
     jobs:
       - name: heavy_cpu_job
         count: 200
-        annotations:
-          armadaproject.io/step_path: "/1/2/3/4"
-          armadaproject.io/region: "EU"
         spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
@@ -49,7 +45,7 @@ submissions:
                 - sh
               args:
                 - -c
-                - "sleep $(( (RANDOM % 120) + 100))s"
+                - "echo FAILED && echo hello world > /dev/termination-log && exit 137"
               resources:
                 limits:
                   memory: 128Mi
@@ -65,6 +61,7 @@ submissions:
       - name: heavy_cpu_job
         count: 200
         spec:
+          priorityClassName: armada-preemptible
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
           containers:
@@ -75,7 +72,7 @@ submissions:
                 - sh
               args:
                 - -c
-                - "echo FAILED && echo hello world > /dev/termination-log && exit 137"
+                - "sleep 300"
               resources:
                 limits:
                   memory: 128Mi

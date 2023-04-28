@@ -1,0 +1,81 @@
+queue: test
+jobSetId: 'E:\tmp\help'
+jobs:
+  - priority: 0
+    clientId: "carloca"
+    podSpec:
+      terminationGracePeriodSeconds: 0
+      restartPolicy: Never
+      initContainers:
+        - name: my-init-container-1
+          imagePullPolicy: IfNotPresent
+          image: alpine:latest
+          command: ["sh", "-c"]
+          args:
+            - for i in $(seq 10); do echo $i; sleep 1; done;
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 150m
+            requests:
+              memory: 64Mi
+              cpu: 150m
+        - name: my-init-container-2
+          imagePullPolicy: IfNotPresent
+          image: alpine:latest
+          command: ["sh", "-c"]
+          args:
+            - for i in $(seq 100); do echo again $i; sleep 1; done;
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 150m
+            requests:
+              memory: 64Mi
+              cpu: 150m
+      containers:
+        - name: do-things
+          imagePullPolicy: IfNotPresent
+          image: alpine:latest
+          command:
+            - sh
+            - -c
+          args:
+            - for i in $(seq 2000); do echo things $i; sleep 1; done;
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 150m
+            requests:
+              memory: 64Mi
+              cpu: 150m
+        - name: do-many-things
+          imagePullPolicy: IfNotPresent
+          image: alpine:latest
+          command:
+            - sh
+            - -c
+          args:
+            - for i in $(seq 2000); do echo many interesting other things $i; sleep 1; done;
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 150m
+            requests:
+              memory: 64Mi
+              cpu: 150m
+        - name: spammer
+          imagePullPolicy: IfNotPresent
+          image: alpine:latest
+          command:
+            - sh
+            - -c
+          args:
+            - for i in $(seq 100000); do echo $i; sleep 0.1; done;
+          resources:
+            limits:
+              memory: 64Mi
+              cpu: 150m
+            requests:
+              memory: 64Mi
+              cpu: 150m

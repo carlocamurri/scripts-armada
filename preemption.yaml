@@ -8,7 +8,6 @@ submissions:
         count: 200
         annotations:
           armadaproject.io/step_path: "/1/2/3"
-          armadaproject.io/region: "NA"
         spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
@@ -35,9 +34,6 @@ submissions:
     jobs:
       - name: heavy_cpu_job
         count: 200
-        annotations:
-          armadaproject.io/step_path: "/1/2/3/4"
-          armadaproject.io/region: "EU"
         spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never

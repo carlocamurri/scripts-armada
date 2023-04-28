@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 stream_backend="$1"
 
 if [ -z "$stream_backend" ] || (echo "stan jetstream pulsar" | grep -v -q "$stream_backend"); then
@@ -8,13 +7,14 @@ if [ -z "$stream_backend" ] || (echo "stan jetstream pulsar" | grep -v -q "$stre
 fi
 echo "Using $stream_backend"
 
-kind create cluster --name demo-a --config ../scripts-armada/dev/kind.yaml
+mage Kind || exit 1
+# kind create cluster --name demo-a --config ../scripts-armada/dev/kind.yaml
 docker compose -f ../scripts-armada/dev/docker-compose.yaml up -d
 
 sleep 20
 
-go run ./cmd/lookout/main.go --migrateDatabase
-go run ./cmd/lookoutv2/main.go --migrateDatabase
+go run ./cmd/lookout/main.go --migrateDatabase --config ../scripts-armada/dev/config/lookout/base.yaml
+go run ./cmd/lookoutv2/main.go --migrateDatabase --config ../scripts-armada/dev/config/lookoutv2/base.yaml
 
 if [ "$stream_backend" = "pulsar" ]; then
   docker exec pulsar /bin/sh -c '/scripts/pulsar-setup.sh'
@@ -31,5 +31,5 @@ echo "go run ./cmd/lookout/main.go --config ../scripts-armada/dev/config/lookout
 echo 'ARMADA_APPLICATION_CLUSTERID=demo-a ARMADA_METRIC_PORT=9001 go run ./cmd/executor/main.go --config ../scripts-armada/dev/config/executor/base.yaml'
 echo "go run ./cmd/binoculars/main.go --config ../scripts-armada/dev/config/binoculars/base.yaml"
 
-echo "go run ./cmd/lookoutv2ingester/main.go"
+echo "go run ./cmd/lookoutingesterv2/main.go"
 echo "go run ./cmd/lookoutv2/main.go"

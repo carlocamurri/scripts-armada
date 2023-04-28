@@ -1,0 +1,43 @@
+queue: alice
+jobSetId: alices-project-0
+jobs:
+  - namespace: default
+    podSpecs:
+      - containers:
+          - name: cpu-burner
+            image: containerstack/alpine-stress:latest
+            command:
+              - sh
+            args:
+              - '-c'
+              - echo FAILED && echo hello world > /dev/termination-log && exit 137
+            resources:
+              limits:
+                cpu: 200m
+                ephemeral-storage: 8Gi
+                memory: 128Mi
+              requests:
+                cpu: 200m
+                ephemeral-storage: 8Gi
+                memory: 128Mi
+            imagePullPolicy: IfNotPresent
+        restartPolicy: Never
+        terminationGracePeriodSeconds: 1
+        tolerations:
+          - key: armadaproject.io/armada
+            operator: Equal
+            value: 'true'
+            effect: NoSchedule
+          - key: armadaproject.io/pc-armada-default
+            operator: Equal
+            value: 'true'
+            effect: NoSchedule
+          - key: armadaproject.io/armada
+            operator: Equal
+            value: 'true'
+            effect: NoSchedule
+          - key: armadaproject.io/pc-armada-default
+            operator: Equal
+            value: 'true'
+            effect: NoSchedule
+        priorityClassName: armada-default

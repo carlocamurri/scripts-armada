@@ -12,6 +12,7 @@ grpc:
     permitWithoutStream: false
 
 uiConfig:
+  customTitle: DEV
   armadaApiBaseUrl: "http://localhost:8080"
   userAnnotationPrefix: "armadaproject.io/"
   binocularsEnabled: true

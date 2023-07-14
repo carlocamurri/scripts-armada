@@ -8,7 +8,7 @@ submissions:
         count: 200
         annotations:
           armadaproject.io/step_path: "/1/2/3"
-          armadaproject.io/region: "NA"
+          armadaproject.io/region: "US"
         spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
@@ -38,6 +38,7 @@ submissions:
         annotations:
           armadaproject.io/step_path: "/1/2/3/4"
           armadaproject.io/region: "EU"
+          armadaproject.io/link-to-somewhere: "https://en.wikipedia.org/wiki/Main_Page"
         spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
@@ -52,10 +53,10 @@ submissions:
                 - "sleep $(( (RANDOM % 120) + 100))s"
               resources:
                 limits:
-                  memory: 128Mi
+                  memory: 200Mi
                   cpu: 0.2
                 requests:
-                  memory: 128Mi
+                  memory: 200Mi
                   cpu: 0.2
   - jobSetPrefix: alices-project
     queue: alice
@@ -64,6 +65,10 @@ submissions:
     jobs:
       - name: heavy_cpu_job
         count: 200
+        annotations:
+          armadaproject.io/step_path: "/4/5/6"
+          armadaproject.io/region: "BR"
+          armadaproject.io/link-to-somewhere: "example.com"
         spec:
           terminationGracePeriodSeconds: 0
           restartPolicy: Never
@@ -79,10 +84,10 @@ submissions:
               resources:
                 limits:
                   memory: 128Mi
-                  cpu: 0.2
+                  cpu: 0.4
                 requests:
                   memory: 128Mi
-                  cpu: 0.2
+                  cpu: 0.4
   - jobSetPrefix: daves-project
     queue: dave
     queuePriorityFactor: 1000
@@ -104,10 +109,10 @@ submissions:
                 - "sleep $(( (RANDOM % 120) + 100))s"
               resources:
                 limits:
-                  memory: 128Mi
+                  memory: 100Mi
                   cpu: 0.2
                 requests:
-                  memory: 128Mi
+                  memory: 100Mi
                   cpu: 0.2
   - jobSetPrefix: chriss-project
     queue: chris
@@ -130,8 +135,23 @@ submissions:
                 - "sleep $(( (RANDOM % 120) + 100))s"
               resources:
                 limits:
-                  memory: 128Mi
-                  cpu: 0.2
+                  memory: 50Mi
+                  cpu: 0.1
                 requests:
-                  memory: 128Mi
-                  cpu: 0.2
+                  memory: 50Mi
+                  cpu: 0.1
+            - name: another-container
+              imagePullPolicy: IfNotPresent
+              image: containerstack/alpine-stress:latest
+              command:
+                - sh
+              args:
+                - -c
+                - "sleep $(( (RANDOM % 120) + 100))s"
+              resources:
+                limits:
+                  memory: 50Mi
+                  cpu: 0.1
+                requests:
+                  memory: 50Mi
+                  cpu: 0.1

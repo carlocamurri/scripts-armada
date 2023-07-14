@@ -15,6 +15,7 @@ auth:
     watch_events: ["everyone"]
     watch_all_events: ["everyone"]
     execute_jobs: ["everyone"]
+    cordon_nodes: ["everyone"]
 pulsar:
   enabled: false
 eventapi:

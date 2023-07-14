@@ -41,3 +41,9 @@ services:
       - "6650:6650"
     volumes:
       - ./config/pulsar:/scripts
+  postgresjobservice:
+    image: postgres
+    environment:
+      - "POSTGRES_PASSWORD=psw"
+    ports:
+      - "5434:5432"
